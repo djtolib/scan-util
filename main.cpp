@@ -2,7 +2,6 @@
 #include <filesystem>
 #include <fstream>
 #include <ctime>
-#include <unistd.h>
 using namespace  std;
 
 int main(int argc, char** argv) {
@@ -56,23 +55,19 @@ int main(int argc, char** argv) {
 
     int total_count = stoi(unix_count) + stoi(js_count) + stoi(mac_count) + stoi(err_count);
 
-
-
-    //system("sleep 2");
-    //sleep(2);
-
     clock_gettime(CLOCK_REALTIME, &t_end);
     long elapsed = t_end.tv_sec - t_begin.tv_sec;
-    int mins = elapsed % 60;
-    int hours = mins % 60;
-
+    int mins = elapsed / 60;
+    int hours = mins / 60;
+    elapsed %= 3600;
     cout<<"====== Scan result ======"<<endl
     <<"Processed files: "<<total_count<<endl
     <<"JS detects: "<<js_count<<endl
     <<"Unix detects: "<<unix_count<<endl
     <<"macOS detects: "<<mac_count<<endl
     <<"Errors: "<<err_count<<endl
-    <<"Exection time: "<<setfillsetw(2)<<hours<<":"<<setw(2)<<"elapsed<<endl
+    <<"Exection time: "<<setfill('0')<<setw(2)<<hours<<":"<<setfill('0')<<setw(2)<<mins<<":"
+        <<setfill('0')<<setw(2)<<elapsed<<endl
     <<"========================="<<endl;
     return 0;
 }
