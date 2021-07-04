@@ -53,6 +53,9 @@ int main(int argc, char** argv) {
 
     myfile.close();
 
+    //Clearing tmp files
+    system("rm out.tmp errs");
+
     int total_count = stoi(unix_count) + stoi(js_count) + stoi(mac_count) + stoi(err_count);
 
     clock_gettime(CLOCK_REALTIME, &t_end);
