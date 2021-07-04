@@ -15,9 +15,11 @@ int main(int argc, char** argv) {
         cout<<"Directory is not exists."<<endl;
         return 1;
     }
+
     ifstream file;
     string line;
     int unix_suspicious = 0, js_suspicious = 0, mac_suspicious = 0, errors = 0;
+
     for(auto &p : filesystem::directory_iterator(path)) {
         if (!p.is_directory()) {
             file.open(p.path(), ios_base::in);
@@ -37,12 +39,10 @@ int main(int argc, char** argv) {
                         ++js_suspicious;
                         break;
                     }
-
                 }
                 file.close();
             }
             else ++errors;
-
         }// end of not directory if
     }// end of for
 
