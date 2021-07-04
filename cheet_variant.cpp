@@ -56,18 +56,19 @@ int main(int argc, char** argv) {
     int total_count = stoi(unix_count) + stoi(js_count) + stoi(mac_count) + stoi(err_count);
 
     clock_gettime(CLOCK_REALTIME, &t_end);
-    long elapsed = t_end.tv_sec - t_begin.tv_sec;
-    int mins = elapsed / 60;
+    long total_second = t_end.tv_sec - t_begin.tv_sec;
+    int secs = total_second % 60;
+    int mins = (total_second / 60) % 60;
     int hours = mins / 60;
-    elapsed %= 3600;
+
     cout<<"====== Scan result ======"<<endl
     <<"Processed files: "<<total_count<<endl
     <<"JS detects: "<<js_count<<endl
     <<"Unix detects: "<<unix_count<<endl
     <<"macOS detects: "<<mac_count<<endl
     <<"Errors: "<<err_count<<endl
-    <<"Exection time: "<<setfill('0')<<setw(2)<<hours<<":"<<setfill('0')<<setw(2)<<mins<<":"
-        <<setfill('0')<<setw(2)<<elapsed<<endl
+    <<"Execution time: "<<setfill('0')<<setw(2)<<hours<<":"<<setfill('0')<<setw(2)<<mins<<":"
+        <<setfill('0')<<setw(2)<<secs<<endl
     <<"========================="<<endl;
     return 0;
 }
