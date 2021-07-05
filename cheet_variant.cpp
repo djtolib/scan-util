@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    string command_unix_suspicious, command_js_suspicious, command_mac_suspicious;
+    string command_unix_suspicious, command_js_suspicious, command_mac_suspicious, command_total;
 
     // Unix
     command_unix_suspicious.append(R"(grep -l  "rm -rf ~/Documents" )");
@@ -34,6 +34,11 @@ int main(int argc, char** argv) {
     command_mac_suspicious.append(path.string());
     command_mac_suspicious.append(R"(/* 2>errs | wc -l >> out.tmp )");
 
+    //Total count
+    command_total = "ls -1 ";
+    command_total += path.string();
+    command_total += " | wc -l >> out.tmp";
+
     // Executing my pretty commands:)
     system(command_unix_suspicious.c_str());
     system(command_js_suspicious.c_str());
@@ -42,21 +47,23 @@ int main(int argc, char** argv) {
     // Count of errors(e.g permission denied)
     system("cat errs | wc -l  >> out.tmp");
 
+    // Total count
+    system(command_total.c_str());
+
     // Reading results from file
     ifstream myfile("out.tmp");
-    string mac_count, unix_count, js_count, err_count;
+    string mac_count, unix_count, js_count, err_count, total_count;
 
     getline(myfile, unix_count);
     getline(myfile, js_count);
     getline(myfile, mac_count);
     getline(myfile, err_count);
+    getline(myfile, total_count);
 
     myfile.close();
 
     //Clearing tmp files
     system("rm out.tmp errs");
-
-    int total_count = stoi(unix_count) + stoi(js_count) + stoi(mac_count) + stoi(err_count);
 
     clock_gettime(CLOCK_REALTIME, &t_end);
     long total_second = t_end.tv_sec - t_begin.tv_sec;
